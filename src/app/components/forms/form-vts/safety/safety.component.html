@@ -1,0 +1,140 @@
+<br>
+<div class="col-md-12 admin-card">
+    <div class="card rounded-0">
+        <b class="card-header py-3">Safety Report</b>
+    <div class="card-body">
+        <div class="row">
+                 <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="startDate">Start Time<span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" id="exampleForm1"
+                      name="model.startTime" ngModel>
+                    </div>
+                </div>
+      
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="endDate">End Time<span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" id="exampleForm2"
+                      name="model.endTime"  ngModel>
+                    </div>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-4">
+              <div class="form-group">
+                <label for="plate_no">Plate No<span class="text-danger">*</span></label>
+                <ng-select
+                placeholder="Select Plate No"
+                id="slide"
+                name="plate_no"
+                [clearable]="false"
+                bindlabel=""
+                bindvalue=""
+                items=""
+                >
+                </ng-select>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-4">
+                <div class="form-group">
+                  <label for="driver name">Driver Name<span class="text-danger">*</span></label>
+                  <ng-select
+                  placeholder="Select Driver Name"
+                  id="slide"
+                  name="Driver name"
+                  [clearable]="false"
+                  bindlabel=""
+                  bindvalue=""
+                  items=""
+                  >
+                  </ng-select>
+                </div>
+              </div>
+
+        </div>
+        <div class="col-md-3 offset-md-10">
+            <button type="submit" class="btn btn-success">
+              Filter
+          </button>
+       </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12 admin-card">
+  <div class="card rounded-0">
+     <div class="card-body">
+        <table class="table-bordered table-striped table-responsive w-100 p-3"> 
+            <thead class="table m-b-0 comn-table">
+               <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Plate</th>
+                <th scope="col">Driver</th>
+                <th scope="col">Driver Approved for Night Driving</th>
+                <th scope="col">Rest Hours</th>
+                <th scope="col">Total Km Travelled</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Driving Hours</th>
+                <th scope="col">Idle Hours</th>
+                <th scope="col">Continous driving for more than 4 hours</th>
+                <th scope="col">Working Time</th>
+                <th scope="col">Night Driving</th>
+                <th scope="col">Violation on night driving</th>
+                <th scope="col">Harsh Breaking</th>
+                <th scope="col">Harsh Accelaration</th>
+                <th scope="col">Harsh Cornering</th>
+                <th scope="col">Violation on speed</th>
+                <th scope="col">Max Speed</th>
+                <th scope="col">Rest Time minimum of 9 hrs</th>
+               </tr>
+
+              <!-- <tr>
+               <td class="scope">{{item.vehicle_no}}</td> 
+               <td class="scope">{{item.model}}</td> 
+               <td class="scope">{{item.asset_type}}</td> 
+               <td class="scope">{{item.operation_group}}</td> 
+               <td class="scope">{{item.avl_no}}</td> 
+               <td class="scope">{{item.avl_model}}</td> 
+               <td class="scope">{{item.sim_no}}</td> 
+               <td class="scope">{{item.current_kilometers}}</td> 
+               <td class="scope">{{item.last_latitude}}</td>
+               <td class="scope">{{item.last_longitude}}</td> 
+               <td class="scope">{{item.last_msg_received}}</td> 
+               <td class="scope">{{item.location_name}}</td> 
+               <td class="scope">{{item.distance_to_location}}</td> 
+               <td class="scope">{{item.direction}}</td> 
+               <td class="scope">{{item.speed}}</td> 
+               <td class="scope">{{item.engin_status}}</td> 
+              </tr> -->
+
+               <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Plate</th>
+                <th scope="col">Driver</th>
+                <th scope="col">Driver Approved for Night Driving</th>
+                <th scope="col">Rest Hours</th>
+                <th scope="col">Total Km Travelled</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Driving Hours</th>
+                <th scope="col">Idle Hours</th>
+                <th scope="col">Continous driving for more than 4 hours</th>
+                <th scope="col">Working Time</th>
+                <th scope="col">Night Driving</th>
+                <th scope="col">Violation on night driving</th>
+                <th scope="col">Harsh Breaking</th>
+                <th scope="col">Harsh Accelaration</th>
+                <th scope="col">Harsh Cornering</th>
+                <th scope="col">Violation on speed</th>
+                <th scope="col">Max Speed</th>
+                <th scope="col">Rest Time minimum of 9 hrs</th>
+               </tr>
+            </thead>
+        </table>
+     </div>
+  </div>
+</div>
+

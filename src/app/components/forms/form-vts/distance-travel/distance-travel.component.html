@@ -1,0 +1,197 @@
+<br>
+<div class="col-md-12 admin-card">
+    <div class="card rounded-0">
+        <b class="card-header py-3">Distance Travel Report</b>
+    <div class="card-body">
+        <div class="row">
+                 <div class="col-lg-4 col-md-4">
+                  <div class="form-group">
+                    <label for="startDate">Start Time<span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" id="exampleForm1"
+                      name="model.startTime" ngModel>
+                    </div>
+                </div>
+      
+                <div class="col-lg-4 col-md-4">
+                  <div class="form-group">
+                    <label for="endDate">End Time<span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" id="exampleForm2"
+                      name="model.endTime"  ngModel>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4">
+                    <div class="form-group">
+                      <label for="plate_no">Plate No<span class="text-danger">*</span></label>
+                      <ng-select
+                      placeholder="Select Plate No"
+                      id="slide"
+                      name="plate_no"
+                      [clearable]="false"
+                      bindlabel=""
+                      bindvalue=""
+                      items=""
+                      >
+                      </ng-select>
+                    </div>
+                  </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label for="driver name">Driver Name</label>
+                  <ng-select
+                  placeholder="Select Driver Name"
+                  id="slide"
+                  name="Driver name"
+                  [clearable]="false"
+                  bindlabel=""
+                  bindvalue=""
+                  items=""
+                  >
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label for="driver name">Employee Number</label>
+                  <ng-select
+                  placeholder="Select Employee Number"
+                  id="slide"
+                  name="Employee Number"
+                  [clearable]="false"
+                  bindlabel=""
+                  bindvalue=""
+                  items=""
+                  >
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label for="driver name">Event Type</label>
+                  <ng-select
+                  placeholder="Select Event Type"
+                  id="slide"
+                  name="Event Type"
+                  [clearable]="false"
+                  bindlabel=""
+                  bindvalue=""
+                  items=""
+                  >
+                  </ng-select>
+                </div>
+              </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label for="driver name">Vehicle Type</label>
+                  <ng-select
+                  placeholder="Select Vehicle Type"
+                  id="slide"
+                  name="Vehicle Type"
+                  [clearable]="false"
+                  bindlabel=""
+                  bindvalue=""
+                  items=""
+                  >
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label for="driver name">Customers</label>
+                  <ng-select
+                  placeholder="Select Customer"
+                  id="slide"
+                  name="Customer"
+                  [clearable]="false"
+                  bindlabel=""
+                  bindvalue=""
+                  items=""
+                  >
+                  </ng-select>
+                </div>
+              </div>
+        </div>
+
+        <div class="col-md-3 offset-md-10">
+            <button type="submit" class="btn btn-success">
+              Filter
+          </button>
+       </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12 admin-card">
+  <div class="card rounded-0">
+     <div class="card-body">
+        <table class="table-bordered table-striped table-responsive w-100 p-3"> 
+            <thead class="table m-b-0 comn-table">
+               <tr>
+                <th scope="col">Map</th>
+                <th scope="col">Vehicle</th>
+                <th scope="col">AVL Number</th>
+                <th scope="col">Date Time</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Distance in KM</th>
+                <th scope="col">Previous Event</th>
+                <th scope="col">Event Type</th>
+                <th scope="col">Vehicle Type</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Trip No.</th>
+                <th scope="col">Location</th>
+                <th scope="col">Employee No.</th>
+                <th scope="col">Driver Name</th>
+               </tr>
+
+              <!-- <tr>
+               <td class="scope">{{item.vehicle_no}}</td> 
+               <td class="scope">{{item.model}}</td> 
+               <td class="scope">{{item.asset_type}}</td> 
+               <td class="scope">{{item.operation_group}}</td> 
+               <td class="scope">{{item.avl_no}}</td> 
+               <td class="scope">{{item.avl_model}}</td> 
+               <td class="scope">{{item.sim_no}}</td> 
+               <td class="scope">{{item.current_kilometers}}</td> 
+               <td class="scope">{{item.last_latitude}}</td>
+               <td class="scope">{{item.last_longitude}}</td> 
+               <td class="scope">{{item.last_msg_received}}</td> 
+               <td class="scope">{{item.location_name}}</td> 
+               <td class="scope">{{item.distance_to_location}}</td> 
+               <td class="scope">{{item.direction}}</td> 
+               <td class="scope">{{item.speed}}</td> 
+               <td class="scope">{{item.engin_status}}</td> 
+              </tr> -->
+
+               <tr>
+                <th scope="col">Map</th>
+                <th scope="col">Vehicle</th>
+                <th scope="col">AVL Number</th>
+                <th scope="col">Date Time</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Distance in KM</th>
+                <th scope="col">Previous Event</th>
+                <th scope="col">Event Type</th>
+                <th scope="col">Vehicle Type</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Trip No.</th>
+                <th scope="col">Location</th>
+                <th scope="col">Employee No.</th>
+                <th scope="col">Driver Name</th>
+               </tr>
+            </thead>
+        </table>
+     </div>
+  </div>
+</div>
+

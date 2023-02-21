@@ -1,0 +1,248 @@
+<br>
+<form>
+<div class="col-md-12 card rounded-0">
+        <b class="card-header py-2 mt-2">Filter Travel History Report
+          <span *ngIf="LastSyncSpinner" style="float: right;" class="loader ml-2"></span>
+          <span style="float: right; font-size: 14px; background-color: rgb(250, 97, 97); color: white;">Last Sync:&nbsp;{{LastSync}}</span></b>
+   
+    <div class="card-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="startDate">Start Time<span class="text-danger">*</span></label>
+              <input type="datetime-local" class="form-control" id="exampleForm1"
+                name="model.startDate" [formControl]="startDate" [(ngModel)]="TravelHistoryRequest.startDate" required>
+              </div>
+          </div>
+
+          <div class="col-sm-6">  
+            <div class="form-group">
+              <label for="endDate">End Time<span class="text-danger">*</span></label>
+              <input type="datetime-local" class="form-control" id="exampleForm2"
+                name="model.endDate" [formControl]="endDate" [min]="startDate.value" [(ngModel)]="TravelHistoryRequest.endDate" required>
+              </div>
+          </div>
+         </div>
+                <!-- <label for="startdate" class="col-form-label" name="startdate"><span class="text-danger">*</span>Start Time: </label>
+                <div class="col-lg-4 col-md-4">
+                  <input type="datetime-local" name="startDate" id="exampleForm1" class="form-control" ngModel required>
+               </div>
+                   <label for="enddate" class="col-form-label offset-md-2"><span class="text-danger">*</span>End Time: </label>
+                   <div class="col-lg-4 col-md-4">
+                    <input type="datetime-local" name="endDate" id="exampleForm2" class="form-control"  ngModel required>  
+                   </div>    -->
+           
+                 
+           <div class="row">
+            <div class="col-lg-6 col-md-4">
+              <div class="form-group">
+                <label for="AVLno">AVL Number</label>
+                <ng-select
+                placeholder="Select AVL Number" 
+                id="slide"
+                name="avlno"
+                [clearable]="false"
+                bindValue="imei"
+                bindLabel="imei"
+                [items]="AvlList"
+                [(ngModel)]="TravelHistoryRequest.avlno">
+                </ng-select>
+              </div>
+            </div>  
+
+            <div class="col-lg-6 col-md-4">
+              <div class="form-group">
+                <label for="plateno">Plate No</label>
+                <ng-select
+                placeholder="Select Plate no" 
+                id="slide"
+                name="plateno"
+                [clearable]="false"
+                bindValue="plate_no"
+                bindLabel="plate_no"
+                [(ngModel)]="TravelHistoryRequest.plate_no"
+                [items]="AvlList">
+                </ng-select>
+              </div>
+            </div> 
+           </div>   
+                    
+        
+          <button type="submit" (click)="filterData()" [disabled]="!TravelHistoryRequest.startDate || !TravelHistoryRequest.endDate" class="btn btn-success mt-2 float-right">
+            Filter
+        </button>
+  </div>
+      
+        <div class="form-group row">
+          <!-- <label for="startdate" class="col-form-label">Employee Number: </label>
+          <div class="col-sm-2">
+              <select name="empno" class="form-control" id="slide">
+                <option value="" disabled selected hidden> </option>
+                <option value="one">D15421</option>
+                <option value="two">D16714</option>
+                <option value="three">D16168</option>
+                <option value="three">d16169</option>
+                <option value="three">D16162</option>
+                <option value="three">D16161</option>
+              </select>
+          </div>
+          <label for="dname" class="col-form-label">Driver Name: </label>
+          <div class="col-md-3">
+              <select name="dname" class="form-control" id="slide">
+                <option value="" disabled selected hidden> </option>
+                <option value="1"> A </option>
+                <option value="2"> B </option>
+                <option value="3"> C </option>
+              </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="cust" class="col-form-label">Customers: </label>
+          <div class="col-md-3">
+            <select name="cust" class="form-control" id="slide">
+              <option value="" disabled selected hidden> </option>
+              <option value="1"> A </option>
+              <option value="2"> B </option>
+              <option value="3"> C </option>
+            </select>
+        </div>
+        </div> -->
+          
+    </div>
+</div>
+</form>
+<div class="row">
+  <div *ngIf="!isSpinner" style="display: block !important; margin-left: auto; margin-right: auto; margin-top: 100px;" >
+    <div class="sk-chase">
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+    </div><br>
+    <h5 style="margin-left:-20px"><b>GETTING DATA...</b></h5>
+  </div>
+</div>
+
+<div class="col-md-12 card rounded-0" *ngIf="isSpinner">
+    <div class="card-body">
+      
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" [(ngModel)]="search" (ngModelChange)="onChangeSearch()">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      
+      <span class="col-md-3">
+        <button type="download" class="btn btn-success" (click)="DownloadTravelHistoryReport()" [disabled]="travelHistory.length === 0? true : false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-filetype-csv" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM3.517 14.841a1.13 1.13 0 0 0 .401.823c.13.108.289.192.478.252.19.061.411.091.665.091.338 0 .624-.053.859-.158.236-.105.416-.252.539-.44.125-.189.187-.408.187-.656 0-.224-.045-.41-.134-.56a1.001 1.001 0 0 0-.375-.357 2.027 2.027 0 0 0-.566-.21l-.621-.144a.97.97 0 0 1-.404-.176.37.37 0 0 1-.144-.299c0-.156.062-.284.185-.384.125-.101.296-.152.512-.152.143 0 .266.023.37.068a.624.624 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.092 1.092 0 0 0-.2-.566 1.21 1.21 0 0 0-.5-.41 1.813 1.813 0 0 0-.78-.152c-.293 0-.551.05-.776.15-.225.099-.4.24-.527.421-.127.182-.19.395-.19.639 0 .201.04.376.122.524.082.149.2.27.352.367.152.095.332.167.539.213l.618.144c.207.049.361.113.463.193a.387.387 0 0 1 .152.326.505.505 0 0 1-.085.29.559.559 0 0 1-.255.193c-.111.047-.249.07-.413.07-.117 0-.223-.013-.32-.04a.838.838 0 0 1-.248-.115.578.578 0 0 1-.255-.384h-.765ZM.806 13.693c0-.248.034-.46.102-.633a.868.868 0 0 1 .302-.399.814.814 0 0 1 .475-.137c.15 0 .283.032.398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.441 1.441 0 0 0-.489-.272 1.838 1.838 0 0 0-.606-.097c-.356 0-.66.074-.911.223-.25.148-.44.359-.572.632-.13.274-.196.6-.196.979v.498c0 .379.064.704.193.976.131.271.322.48.572.626.25.145.554.217.914.217.293 0 .554-.055.785-.164.23-.11.414-.26.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.799.799 0 0 1-.118.363.7.7 0 0 1-.272.25.874.874 0 0 1-.401.087.845.845 0 0 1-.478-.132.833.833 0 0 1-.299-.392 1.699 1.699 0 0 1-.102-.627v-.495Zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879l-1.327 4Z"/>
+          </svg>
+      </button>
+      </span>    
+
+      <span style="float: right;">
+      <form class="form-inline">
+        <label for="sel1">Show:</label>&nbsp;
+        <select class="form-control col-md-8" (change)="onSelectedChange($event.target.value)">
+          <option value="{{travelHistory.length}}">All</option>
+          <option selected>10</option>
+          <option>50</option>
+          <option *ngIf="travelHistory.length > 200">200</option>
+        </select>
+      </form>
+      <span class="ml-2">Showing {{travelHistory.length === 0 ? '0' : pageSize}} entries from {{travelHistory.length}}</span> 
+     </span>
+
+      <div class="mt-4" style="overflow-x: auto;">
+      <table class="table-bordered w-100 p-3">
+            <thead class="table m-b-0 comn-table">
+              <tr>
+                <th scope="col">Map</th>
+                <!-- <th mat-sort-header="vh" scope="col">Vehicle</th> -->
+                <th scope="col" (click)="sortFunction('imei', booleanValue)">AVL Number <i class="my-icon fa fa-sort"></i></th>
+                <th scope="col" (click)="sortFunction('TimeStamp', booleanValue)">Date Time <i class="my-icon fa fa-sort"></i></th>
+                <th scope="col" (click)="sortFunction('Latitude', booleanValue)">Latitude <i class="my-icon fa fa-sort"></i></th>
+                <th scope="col" (click)="sortFunction('Longitude', booleanValue)">Longitude <i class="my-icon fa fa-sort"></i></th>
+               <!--  <th mat-sort-header="vh" scope="col">Distance to nearest location</th> -->
+                <!-- <th mat-sort-header="vh" scope="col">Battery Voltage</th> -->
+                <th scope="col" (click)="sortFunction('Speed', booleanValue)">Speed <i class="my-icon fa fa-sort"></i></th>
+                <th scope="col" (click)="sortFunction('Priority', booleanValue)">Priority <i class="my-icon fa fa-sort"></i></th>
+                <th scope="col" (click)="sortFunction('Altitude', booleanValue)">Altitude <i class="my-icon fa fa-sort"></i></th>
+                <th scope="col" (click)="sortFunction('Satellities', booleanValue)">Satellities <i class="my-icon fa fa-sort"></i></th>
+                <th scope="col" (click)="sortFunction('EventIOId', booleanValue)">EventIOId <i class="my-icon fa fa-sort"></i></th>
+                <th scope="col" (click)="sortFunction('Angle', booleanValue)">Angle <i class="my-icon fa fa-sort"></i></th>
+                <!-- <th scope="col">Employee No.</th>
+                <th scope="col">Driver Name</th> -->
+              </tr>
+              <tr *ngFor="let th of travelHistory | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize | filter : search">
+                <td scope="col">
+                  <span type="submit" (click)="changeLocation(th.Latitude,th.Longitude)" style="width: 20px; height: 20px; background-color: cornflowerblue; color: white;"><i style="margin-left: 3px;" class="fa fa-globe" ></i></span>
+                  <div class="overlay" *ngIf="popup">
+                    <div class="popup">
+                      <a class="close" (click)="popup = false">&times;</a>
+                      <div class="content">
+                        <agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng" [backgroundColor]="red">
+                          <agm-marker [latitude]="lat" [longitude]="lng">
+                         </agm-marker>
+                       </agm-map>
+                      </div>
+                    </div>
+                  </div>
+              </td>
+                <td scope="col">{{th.imei}}</td>
+                <td scope="col">{{th.q_TimeStamp}}</td>
+                <td scope="col">{{th.Latitude}}</td>
+                <td scope="col">{{th.Longitude}}</td>
+                <td scope="col">{{th.Speed}} km/h</td>
+                <td scope="col">{{th.Priority}}</td>
+                <td scope="col">{{th.Altitude}}</td>
+                <td scope="col">{{th.Satellities}}</td>
+                <td scope="col">{{th.EventIOId}}</td>
+                <td scope="col">{{th.Angle}}</td>
+              </tr>
+            </thead>
+            <!-- <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>101</td>
+                <td>102</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>ABC</td>
+                <td>XYZ</td>
+              </tr>
+            </tbody> -->
+          </table>
+        </div>
+          <br>
+          <ngb-pagination [collectionSize]="travelHistory.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+         
+         
+
+         <!-- <ng-template #modal let-modal>
+          <div>
+            <button style="border: white; margin-left: 29.6rem;" (click)="modal.dismiss('Cross click')"><b style="font-size: larger;">&times;</b></button>
+          </div>
+          <div *ngIf="CSVSpinner == true" class="modal-body">
+            <div style="left: 45%; position: relative; text-align: center; top: 50%;">
+              <div class="sk-chase">
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+              </div>
+            </div>
+          </div>
+          <h4 *ngIf="CSVSpinner == true" class="text-center">Creating CSV File</h4>
+          <div *ngIf="CSVSpinner == false" class="modal-body">
+            <img *ngIf="ResponseModel.success == true" src="assets/successfully-created.png" style="margin-left: 200px;"><br>
+            <h4 *ngIf="ResponseModel.success == true" class="text-center">Click <a style="cursor: pointer; color:blue" (click)="DownloadTravelHistoryReport()" >here</a> to download CSV file</h4>
+            <img *ngIf="ResponseModel.success == false" src="assets/icon-oops.png" style="margin-left: 200px;"><br>
+            <h4 *ngIf="ResponseModel.success == false" class="text-center"><a style="cursor: pointer; color:blue" (click)="DownloadTravelHistoryReport()" >Try Again</a></h4>
+          </div>
+          </ng-template>  -->
+      </div>

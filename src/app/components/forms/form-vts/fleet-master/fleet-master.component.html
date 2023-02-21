@@ -1,0 +1,123 @@
+<br>
+<div class="col-md-12 admin-card">
+    <div class="card rounded-0">
+        <div class="card-body">
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="search" name="search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+                  
+                  <span class="col-md-3">
+                    <button type="download" class="btn btn-success" (click)="DownloadFleetMasterReport()">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-filetype-csv" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM3.517 14.841a1.13 1.13 0 0 0 .401.823c.13.108.289.192.478.252.19.061.411.091.665.091.338 0 .624-.053.859-.158.236-.105.416-.252.539-.44.125-.189.187-.408.187-.656 0-.224-.045-.41-.134-.56a1.001 1.001 0 0 0-.375-.357 2.027 2.027 0 0 0-.566-.21l-.621-.144a.97.97 0 0 1-.404-.176.37.37 0 0 1-.144-.299c0-.156.062-.284.185-.384.125-.101.296-.152.512-.152.143 0 .266.023.37.068a.624.624 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.092 1.092 0 0 0-.2-.566 1.21 1.21 0 0 0-.5-.41 1.813 1.813 0 0 0-.78-.152c-.293 0-.551.05-.776.15-.225.099-.4.24-.527.421-.127.182-.19.395-.19.639 0 .201.04.376.122.524.082.149.2.27.352.367.152.095.332.167.539.213l.618.144c.207.049.361.113.463.193a.387.387 0 0 1 .152.326.505.505 0 0 1-.085.29.559.559 0 0 1-.255.193c-.111.047-.249.07-.413.07-.117 0-.223-.013-.32-.04a.838.838 0 0 1-.248-.115.578.578 0 0 1-.255-.384h-.765ZM.806 13.693c0-.248.034-.46.102-.633a.868.868 0 0 1 .302-.399.814.814 0 0 1 .475-.137c.15 0 .283.032.398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.441 1.441 0 0 0-.489-.272 1.838 1.838 0 0 0-.606-.097c-.356 0-.66.074-.911.223-.25.148-.44.359-.572.632-.13.274-.196.6-.196.979v.498c0 .379.064.704.193.976.131.271.322.48.572.626.25.145.554.217.914.217.293 0 .554-.055.785-.164.23-.11.414-.26.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.799.799 0 0 1-.118.363.7.7 0 0 1-.272.25.874.874 0 0 1-.401.087.845.845 0 0 1-.478-.132.833.833 0 0 1-.299-.392 1.699 1.699 0 0 1-.102-.627v-.495Zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879l-1.327 4Z"/>
+                      </svg>
+                  </button>
+                  </span> 
+
+                  <span style="float: right;">
+                  <form class="form-inline">
+                    <label for="sel1">Show:</label>&nbsp;
+                    <select class="form-control col-md-8" (change)="onSelectedChange($event.target.value)">
+                      <option value="{{fleetmaster.length}}">All</option>
+                      <option selected>10</option>
+                      <option>50</option>
+                      <option *ngIf="fleetmaster.length > 200">200</option>
+                    </select>
+                  </form>
+                 <span class="ml-2">Showing {{fleetmaster.length === 0 ? '0' : pageSize}} entries from {{fleetmaster.length}}</span>
+                  </span>
+
+                 <table class="table-bordered table-striped table-responsive w-100 p-3 mt-4"> 
+                <thead class="table m-b-0 comn-table">
+                   <tr>
+                    <th scope="col" (click)="sortFunction('vehicle_no', booleanValue)">Vehicle No <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('model', booleanValue)">Model <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('asset_type', booleanValue)">Asset Type <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('operation_group', booleanValue)">Operation Group <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('avl_no', booleanValue)">AVL No <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('avl_model', booleanValue)">AVL Model <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('sim_no', booleanValue)">Sim No <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('current_kilometers', booleanValue)">Current Kilometers <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('last_latitude', booleanValue)">Last Latitude <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('last_longitude', booleanValue)">Last Longitude <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('last_msg_received', booleanValue)">Last Message Received <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('location_name', booleanValue)">Location Name <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('distance_to_location', booleanValue)">Distance To Location <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('direction', booleanValue)">Direction <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('speed', booleanValue)">Speed <i class="my-icon fa fa-sort"></i></th>
+                    <th scope="col" (click)="sortFunction('engin_status', booleanValue)">Engine Status <i class="my-icon fa fa-sort"></i></th>
+                   </tr>
+
+                  <tr *ngFor="let item of fleetmaster | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize | filter : search">
+                   <td class="scope">{{item.vehicle_no}}</td> 
+                   <td class="scope">{{item.model}}</td> 
+                   <td class="scope">{{item.asset_type}}</td> 
+                   <td class="scope">{{item.operation_group}}</td> 
+                   <td class="scope">{{item.avl_no}}</td> 
+                   <td class="scope">{{item.avl_model}}</td> 
+                   <td class="scope">{{item.sim_no}}</td> 
+                   <td class="scope">{{item.current_kilometers}}</td> 
+                   <td class="scope">{{item.last_latitude}}</td>
+                   <td class="scope">{{item.last_longitude}}</td> 
+                   <td class="scope">{{item.last_msg_received}}</td> 
+                   <td class="scope">{{item.location_name}}</td> 
+                   <td class="scope">{{item.distance_to_location}}</td> 
+                   <td class="scope">{{item.direction}}</td> 
+                   <td class="scope">{{item.speed}}</td> 
+                   <td class="scope">{{item.engin_status}}</td> 
+                  </tr>
+
+                   <tr>
+                    <th scope="col">Vehicle No</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Asset Type</th>
+                    <th scope="col">Operation Group</th>
+                    <th scope="col">AVL No</th>
+                    <th scope="col">AVL Model</th>
+                    <th scope="col">Sim No</th>
+                    <th scope="col">Current Kilometers</th>
+                    <th scope="col">Last Latitude</th>
+                    <th scope="col">Last Longitude</th>
+                    <th scope="col">Last Message Received</th>
+                    <th scope="col">Location Name</th>
+                    <th scope="col">Distance To Location</th>
+                    <th scope="col">Direction</th>
+                    <th scope="col">Speed</th>
+                    <th scope="col">Engine Status</th>
+                   </tr>
+                </thead>
+            </table>
+            <br>
+          <ngb-pagination [collectionSize]="fleetmaster.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+          
+            
+
+         <!-- <ng-template #modal let-modal>
+          <div>
+            <button style="border: white; margin-left: 29.6rem;" (click)="modal.dismiss('Cross click')"><b style="font-size: larger;">&times;</b></button>
+          </div>
+          <div *ngIf="CSVSpinner == true" class="modal-body">
+            <div style="left: 45%; position: relative; text-align: center; top: 50%;">
+              <div class="sk-chase">
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+              </div>
+            </div>
+          </div>
+          <h4 *ngIf="CSVSpinner == true" class="text-center">Creating CSV File</h4>
+          <div *ngIf="CSVSpinner == false" class="modal-body">
+            <img *ngIf="ResponseModel.success == true" src="assets/successfully-created.png" style="margin-left: 200px;"><br>
+            <h4 *ngIf="ResponseModel.success == true" class="text-center">Click <a style="cursor: pointer; color:blue" (click)="DownloadTravelHistoryReport()" >here</a> to download CSV file</h4>
+            <img *ngIf="ResponseModel.success == false" src="assets/icon-oops.png" style="margin-left: 200px;"><br>
+            <h4 *ngIf="ResponseModel.success == false" class="text-center"><a style="cursor: pointer; color:blue" (click)="DownloadTravelHistoryReport()" >Try Again</a></h4>
+          </div>
+          </ng-template>  -->
+
+        </div>
+    </div>
+</div>

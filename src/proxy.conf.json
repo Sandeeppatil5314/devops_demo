@@ -1,0 +1,6 @@
+{
+    "/api": {
+        "target": "https://30.200.220.221:3001",
+        "secure": false
+    }
+}

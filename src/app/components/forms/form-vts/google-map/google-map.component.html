@@ -1,0 +1,140 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color:transparent !important;">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+     <!-- <a class="btn btn-success" [routerLink]="['/form/google-map']" style="padding: 5px 5px 5px 7px;"><i class="fa fa-refresh"></i>&nbsp; </a> -->
+     <a class="btn align-head" (click)="selecttruck('all')" [ngClass]="truckStatus === 'all'? 'active': ''">All : <i class="purple-icon" style="color: white;">{{totalTrucks}}</i>&nbsp;</a>
+      <a class="btn align-head" (click)="selecttruck('green')" [class.active]="truckStatus === 'green'">Run W Order : <i class="green-icon" style="color: white;">{{greentrucks}}</i>&nbsp;</a>
+      <!-- <a class="btn align-head" (click)="selectemptytrueck('Stop')" [class.active]="truckStatus === 'Stop'">Run WO Order:<i class="blue-icon">0</i>&nbsp;</a> -->
+      <a class="btn align-head" (click)="selecttruck('orange')" [class.active]="truckStatus === 'orange'">Park W Order : <i class="orange-icon" style="color: white;">0</i>&nbsp;</a>
+      <a class="btn align-head" (click)="selecttruck('red')" [class.active]="truckStatus === 'red'">Park WO Order :<i class="red-icon" style="color: white;">{{redtrucks}}</i>&nbsp;</a>
+      <!-- <a class="btn align-head" (click)="selectemptytrueck('Stopedd')" [class.active]="selected === 'Stopedd'">Maintanace:<i class="choco-icon">0</i>&nbsp;</a>
+      <a class="btn align-head" (click)="selectemptytrueck('Stopeddd')" [class.active]="selected === 'Stopeddd'">Offline:<i class="white-icon">0</i>&nbsp;</a> -->
+      <a class="btn btn-success" style="float: right;" (click)="openLg(content)">Current State</a>
+      <!-- <a class="btn align-head offset-md-14"><b>TimeStamp: {{currentDate}}</b></a> -->
+    </div>
+  </div>
+</nav>
+<div class="col-md-12 admin-card">
+  <div class="card rounded-0">
+    <div class="col-lg-4 col-md-3 search">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search By IMEI Or Plate No " [(ngModel)]="SelectedIMEI">
+        <div class="input-group-append">
+          <button class="btn btn-success" [disabled]="SelectedIMEI == ''" (click)="openMap(modal,Content)" type="button">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <agm-map class="agm-map" [mapDraggable]="true" [zoom]="mapZoom" [latitude]="lat3" [longitude]="lng3" [disableDefaultUI]="false" [backgroundColor]="red">
+  <span *ngFor="let truck of trucks | keyvalue; trackBy: trackByFn">
+    <agm-marker (markerClick)="openMd(model,truck)" *ngIf="truckStatus != 'all'? truck.value.status == truckStatus : truckStatus === 'all'" [latitude]="truck.value.lat" [longitude]="truck.value.lng" [iconUrl]="$any(truck.value.icon2)">
+      </agm-marker>
+</span>
+
+<ng-template #model let-modal>
+  <div class="modal-header py-0">
+    <h4 class="modal-title" style="font-family: Book Antiqua; font-size: 20px; width: 20%; float: left; margin-top: 10px;"><b>Truck Details</b></h4>
+    <button style="border: white; margin-right: -16px;" (click)="modal.dismiss('Cross click')"><b style="font-size: larger;">&times;</b></button>
+ </div>
+  <div class="modal-body">
+    <div class="pad-50">     
+      <agm-map [mapDraggable]="true" [zoom]="mapZoom1" [latitude]="SelectedData.Latitude" [longitude]="SelectedData.Longitude" [disableDefaultUI]="false" [backgroundColor]="red">
+      <agm-marker [latitude]="SelectedData.Latitude" [longitude]="SelectedData.Longitude" [iconUrl]="$any(SelectedData.icon2)"></agm-marker>
+      </agm-map>
+    </div>    
+    <div class="pad-40">
+    <table id="customers">
+      <tr>
+        <th colspan="2" class="text-center"><b>Truck Details</b></th>
+        </tr>
+    <tr><td><b>Id:</b></td><td><strong>{{SelectedData.imei}}</strong></td></tr>
+    <tr><td><b>Latitude:</b></td><td><strong>{{SelectedData.Latitude}} </strong></td></tr>
+    <tr><td><b>Longitude:</b></td><td><strong>{{SelectedData.Longitude}} </strong></td></tr>
+    <tr><td><b>Speed:</b></td><td><strong>{{SelectedData.Speed}} km/h</strong></td></tr>
+    <tr><td><b>Plate No:</b></td><td><strong>{{SelectedData.plate_no}}</strong></td></tr>
+    <tr><td><b>TimeStamp:</b></td><td><strong>{{SelectedData.TimeStamp}}&nbsp;UTC</strong></td></tr>
+    <tr><td><b>Last Sync:</b></td><td><strong>{{SelectedData.last_sync}} Sec</strong></td></tr>
+  </table>
+
+  </div>
+</div>
+<h4 style="margin-left: 20rem; font-family:serif;"><b>Powered By Nubax Data Labs</b></h4>
+</ng-template>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" style="font-family: Book Antiqua; font-size: 20px; width: 20%; float: left; margin-top: 10px;"><b>Current State</b></h4>
+    <label style="width: 20%; float: left; font-size: 20px; text-align: right; margin-top: 10px;">Search :</label>
+    <input type="text" class="form-control" placeholder="Enter imei" [(ngModel)]="searchedtruck" style="width: 50%; float: left;">
+    <button style="border: aliceblue; background-color: aliceblue;" (click)="modal.dismiss('Cross click')"><b style="font-size: larger;">&times;</b></button>
+</div>
+<div class="modal-body" style="height: 500px; overflow: hidden; margin-bottom: 20px; overflow-y: auto;">
+ 
+<table id="customers">
+  <tr>
+    <th>IMEI</th>
+    <th>PLATE NO</th>
+    <th>LATITUDE</th> 
+    <th>LONGITUDE</th>
+    <th>TIMESTAMP</th>
+    <th>SPEED</th>
+    <th>LAST SYNC</th>
+  </tr>
+  <tr *ngFor="let truck of trucks | keyvalue; trackBy: trackByFn">
+    <td *ngIf="truck.key.includes(searchedtruck)">{{truck.value.id}}</td>
+    <td *ngIf="truck.key.includes(searchedtruck)">{{truck.value.plate_no}}</td>
+    <td *ngIf="truck.key.includes(searchedtruck)">{{truck.value.lat}}</td>
+    <td *ngIf="truck.key.includes(searchedtruck)">{{truck.value.lng}}</td>
+    <td *ngIf="truck.key.includes(searchedtruck)">{{truck.value.timeStamp}}&nbsp;UTC</td>
+    <td *ngIf="truck.key.includes(searchedtruck)">{{truck.value.speed}} km/h</td>
+    <td *ngIf="truck.key.includes(searchedtruck)">{{truck.value.last_sync}} Sec</td>
+  </tr>
+</table>
+  </div>
+</ng-template>
+
+<ng-template #modal let-modal>
+  <div class="modal-header py-0">
+    <h4 class="modal-title" style="font-family: Book Antiqua; font-size: 20px; width: 20%; float: left; margin-top: 10px;"><b>Truck Details</b></h4>
+    <button style="border: white; margin-right: -16px;" (click)="modal.dismiss('Cross click')"><b style="font-size: larger;">&times;</b></button>
+ </div>
+  <div class="modal-body">
+    <div class="pad-50">     
+      <agm-map [mapDraggable]="true" [zoom]="mapZoom1" [latitude]="SelectedData.Latitude" [longitude]="SelectedData.Longitude" [disableDefaultUI]="false" [backgroundColor]="red">
+      <agm-marker [latitude]="SelectedData.Latitude" [longitude]="SelectedData.Longitude" [iconUrl]="$any(SelectedData.icon2)"></agm-marker>
+      </agm-map>
+    </div>    
+    <div class="pad-40">
+    <table id="customers">
+      <tr>
+        <th colspan="2" class="text-center"><b>Truck Details</b></th>
+        </tr>
+    <tr><td><b>Id:</b></td><td><strong>{{SelectedData.imei}}</strong></td></tr>
+    <tr><td><b>Latitude:</b></td><td><strong>{{SelectedData.Latitude}} </strong></td></tr>
+    <tr><td><b>Longitude:</b></td><td><strong>{{SelectedData.Longitude}} </strong></td></tr>
+    <tr><td><b>Speed:</b></td><td><strong>{{SelectedData.Speed}} km/h</strong></td></tr>
+    <tr><td><b>Plate No:</b></td><td><strong>{{SelectedData.plate_no}}</strong></td></tr>
+    <tr><td><b>TimeStamp:</b></td><td><strong>{{SelectedData.TimeStamp}}&nbsp;UTC</strong></td></tr>
+    <tr><td><b>Last Sync:</b></td><td><strong>{{SelectedData.last_sync}} Sec</strong></td></tr>
+  </table>
+  </div>
+</div>
+<h4 style="margin-left: 20rem; font-family:serif;"><b>Powered By Nubax Data Labs</b></h4>
+</ng-template>
+
+<ng-template #Content let-modal>
+  <div>
+    <button style="border: white; margin-left: 29.6rem;" (click)="modal.dismiss('Cross click')"><b style="font-size: larger;">&times;</b></button>
+ </div>
+  <div class="modal-body">
+    <img src="assets/icon-oops.png" style="margin-left: 200px;"><br><br>
+    <h4 class="text-center">No Data Found</h4>
+ </div>
+</ng-template>
+
+</agm-map>
+</div>
+</div>

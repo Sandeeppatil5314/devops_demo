@@ -1,0 +1,275 @@
+<br>
+<div class="row">
+<div class="col-md-12 admin-card">
+  <form>
+   <div class="card rounded-0">
+            <b class="card-header py-2 mt-2">Filter Violations
+              <span *ngIf="LastSyncSpinner" style="float: right;" class="loader ml-2"></span>
+              <span style="float:right; font-size: 14px; background-color: rgb(250, 97, 97); color: white;">Last Sync: {{LastSync}}</span> 
+            </b>
+
+            <div class="card-body">
+              <div class="row">
+                     <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="startDate">Start Time<span class="text-danger">*</span></label>
+                        <input type="datetime-local" class="form-control" id="exampleForm1"
+                          name="model.startTime" [formControl]="startDate" [(ngModel)]="ViolationRequest.startDate" ngModel>
+                        </div>
+                    </div>
+          
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="endDate">End Time<span class="text-danger">*</span></label>
+                        <input type="datetime-local" class="form-control" id="exampleForm2"
+                          name="model.endTime"  [formControl]="endDate" [min]="startDate.value" [(ngModel)]="ViolationRequest.endDate" ngModel>
+                        </div>
+                    </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-md-4">
+                <div class="form-group">
+                  <label for="Event">Event Type<span class="text-danger">*</span></label>
+                  <ng-select
+                  placeholder="Select Event Type"
+                  id="slide"
+                  name="model.eventType"
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="value"
+                  [items]="EventList"
+                  [(ngModel)]="ViolationRequest.eventType"
+                  ngModel
+                  required
+                  >
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+
+        <button type="submit" (click)="filterData()" [disabled]="!ViolationRequest.startDate || !ViolationRequest.endDate || !ViolationRequest.eventType" class="btn btn-success float-right">Filter</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+
+<div class="row">
+  <div *ngIf="!isSpinner" style="display: block; margin-left: auto; margin-right: auto; margin-top: 100px;" >
+    <div class="sk-chase">
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+      <span class="sk-chase-dot"></span>
+    </div><br>
+    <h5 style="margin-left:-20px"><b>GETTING DATA...</b></h5>
+  </div>
+<div class="col-md-12 admin-card" *ngIf="isSpinner">
+  <div class="card rounded-0">
+    <div class="card-body">
+        
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" [(ngModel)]="search" (ngModelChange)="onChangeSearch()">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        <span class="col-md-3">
+          <button type="download" class="btn btn-success" (click)="DownloadViolationReport()" [disabled]="violationReport.length === 0? true : false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-filetype-csv" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM3.517 14.841a1.13 1.13 0 0 0 .401.823c.13.108.289.192.478.252.19.061.411.091.665.091.338 0 .624-.053.859-.158.236-.105.416-.252.539-.44.125-.189.187-.408.187-.656 0-.224-.045-.41-.134-.56a1.001 1.001 0 0 0-.375-.357 2.027 2.027 0 0 0-.566-.21l-.621-.144a.97.97 0 0 1-.404-.176.37.37 0 0 1-.144-.299c0-.156.062-.284.185-.384.125-.101.296-.152.512-.152.143 0 .266.023.37.068a.624.624 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.092 1.092 0 0 0-.2-.566 1.21 1.21 0 0 0-.5-.41 1.813 1.813 0 0 0-.78-.152c-.293 0-.551.05-.776.15-.225.099-.4.24-.527.421-.127.182-.19.395-.19.639 0 .201.04.376.122.524.082.149.2.27.352.367.152.095.332.167.539.213l.618.144c.207.049.361.113.463.193a.387.387 0 0 1 .152.326.505.505 0 0 1-.085.29.559.559 0 0 1-.255.193c-.111.047-.249.07-.413.07-.117 0-.223-.013-.32-.04a.838.838 0 0 1-.248-.115.578.578 0 0 1-.255-.384h-.765ZM.806 13.693c0-.248.034-.46.102-.633a.868.868 0 0 1 .302-.399.814.814 0 0 1 .475-.137c.15 0 .283.032.398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.441 1.441 0 0 0-.489-.272 1.838 1.838 0 0 0-.606-.097c-.356 0-.66.074-.911.223-.25.148-.44.359-.572.632-.13.274-.196.6-.196.979v.498c0 .379.064.704.193.976.131.271.322.48.572.626.25.145.554.217.914.217.293 0 .554-.055.785-.164.23-.11.414-.26.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.799.799 0 0 1-.118.363.7.7 0 0 1-.272.25.874.874 0 0 1-.401.087.845.845 0 0 1-.478-.132.833.833 0 0 1-.299-.392 1.699 1.699 0 0 1-.102-.627v-.495Zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879l-1.327 4Z"/>
+            </svg>
+        </button>
+       </span> 
+
+      <span style="float: right;">
+      <form class="form-inline">
+        <label for="sel1">Show:</label>&nbsp;
+        <select class="form-control col-md-8" (change)="onSelectedChange($event.target.value)">
+          <option value="{{violationReport.length}}">All</option>
+          <option selected>10</option>
+          <option>50</option>
+          <option *ngIf="violationReport.length > 200">200</option>
+        </select>
+      </form>
+      <span class="ml-2">Showing {{violationReport.length === 0 ? '0' : pageSize}} entries from {{violationReport.length}}</span>
+      </span>
+
+            <table class="table-bordered w-100 p-3 mt-4">
+              <thead class="table m-b-0 comn-table">
+                <tr>
+                  <th scope="col" (click)="sortFunction('TimeStamp', booleanValue)">Date <i class="my-icon fa fa-sort"></i></th>
+                  <th scope="col" (click)="sortFunction('description', booleanValue)">Event Type <i class="my-icon fa fa-sort"></i></th>
+                  <th scope="col" (click)="sortFunction('Speed', booleanValue)">Detail <i class="my-icon fa fa-sort"></i></th>
+                  <th scope="col" (click)="sortFunction('Latitude', booleanValue)">X Pos <i class="my-icon fa fa-sort"></i></th>
+                  <th scope="col" (click)="sortFunction('Longitude', booleanValue)">Y Pos <i class="my-icon fa fa-sort"></i></th>
+                  <th scope="col" (click)="sortFunction('imei', booleanValue)">AVL No <i class="my-icon fa fa-sort"></i></th>
+                  <th scope="col">Map</th>
+                  <th scope="col">Details</th>
+                </tr>
+                <tr *ngFor="let vr of violationReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize | filter : search">
+                  <td scope="col">{{vr.q_TimeStamp}}</td>
+                  <!-- <td scope="col">{{vr.description}}</td>
+                  <td scope="col"><span *ngIf="vr.description === 'Over Speeding'">{{vr.Speed}} km/h</span><span *ngIf="vr.description !== 'Over Speeding'">{{vr.Speed * 0.01}} /g</span></td> -->
+                  <td scope="col">{{eventname}}</td>
+                  <td scope="col"><span *ngIf="eventname == 'Over Speed'">{{vr.Speed}} km/h</span><span *ngIf="eventname != 'Over Speed'">{{vr.io_254 * 0.01}} /g</span></td>
+                  <td scope="col">{{vr.Latitude}}</td>
+                  <td scope="col">{{vr.Longitude}}</td>
+                  <td scope="col">{{vr.imei}}</td>
+                  <td scope="col"><span type="submit" (click)="changeLocation(vr.Latitude,vr.Longitude)" style="width: 20px; height: 20px; background-color: cornflowerblue; color: white;"><i style="margin-left: 3px;" class="fa fa-globe" ></i></span>
+                    <div class="overlay" *ngIf="popup">
+                      <div class="popup">
+                        <a class="close" (click)="popup = false">&times;</a>
+                        <div class="content">
+                          <agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng" [backgroundColor]="red">
+                            <agm-marker [latitude]="lat" [longitude]="lng">
+                           </agm-marker>
+                       </agm-map>
+                        </div>
+                      </div>
+                    </div>
+                </td>
+                <td scope="col">
+                  <span type="button" (click)="getDetailsByIMEI(vr.io_value,vr.EventIOId,vr.imei,vr.q_TimeStamp,vr.description,content)"><i class="fa fa-plus" style="font-size:16px; margin-left: 13px; color:red"></i></span>
+                  <ng-template #content let-modal>
+    
+                    <span class="modal-header">
+                      <b class="modal-title h4"> Details</b>
+                      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"><b class="closebtn">&times;</b> </button>
+                     </span>
+                     <div *ngIf="dSpinner" style="display: block; margin-left: auto; margin-right: auto; margin-top: 100px; height: 400px;" >
+                      <div class="sk-chase">
+                        <span class="sk-chase-dot"></span>
+                        <span class="sk-chase-dot"></span>
+                        <span class="sk-chase-dot"></span>
+                        <span class="sk-chase-dot"></span>
+                        <span class="sk-chase-dot"></span>
+                        <span class="sk-chase-dot"></span>
+                      </div><br>
+                      <h5 style="margin-left:-20px"><b>GETTING DATA...</b></h5>
+                    </div>
+                    <div class="modal-body" *ngIf="!dSpinner" style="overflow-y: scroll; height: 500px;">
+                      <table class="table-bordered w-100 p-3">
+                        <thead class="table m-b-0 comn-table" *ngFor="let d of imeiDetails">
+                          <tr>
+                            <th scope="col">IMEI:</th>
+                            <th scope="col">{{d.imei}}</th>
+                            </tr>
+                             <tr>
+                              <th scope="col">TIMESTAMP:</th>
+                              <th scope="col">{{d.q_TimeStamp}}</th>
+                            </tr>
+                            <tr>
+                              <th scope="col">PROPERTY NAME WITH ID:</th>
+                              <th scope="col">{{d.Property_name}} | {{d.EventIOId}}</th>
+                            </tr>
+                           <tr>
+                              <th scope="col">EVENT TYPE:</th>
+                              <th scope="col">{{eventType}}</th>
+                            </tr>
+                            <tr>
+                              <th scope="col">LATITUDE: </th>
+                              <th scope="col">{{d.Latitude}}</th>
+                            </tr>
+                            <tr>
+                              <th scope="col">LONGITUDE: </th>
+                              <th scope="col">{{d.Longitude}}</th>
+                            </tr>
+                            <tr>
+                              <th scope="col">LOG DEVICE DATA ID: </th>
+                              <th scope="col">{{d.logDevicesDataId}}</th>
+                            </tr>
+                            <tr>
+                              <th scope="col">SATELITE:</th>
+                              <th scope="col">{{d.Satellities}}</th>
+                            </tr>
+                            <tr>
+                              <th scope="col">SPEED: </th>
+                              <th scope="col">{{d.Speed}} km/h</th>
+                            </tr>
+                            <tr>
+                              <th scope="col">ANGLE:</th>
+                              <th scope="col">{{d.Angle}}</th>city
+                            </tr>
+                            <br>
+                            <tr>
+                              <th scope="col" style="text-align:center;">IO ID WITH VALUE</th>
+                              <th scope="col" style="text-align:center;">DESCRIPTION</th>
+                            </tr>
+                          </thead>
+                          <thead class="table m-b-0 comn-table" *ngFor="let d of imeiDetails2">
+                            <tr>
+                              <th scope="col" style="text-align:center;">{{d.IOId}} | {{d.IOValue}}</th>
+                              <th scope="col" style="text-align:center;">{{d.description}}</th>
+                            </tr>
+                          </thead>
+                          </table>
+                    </div>
+                  </ng-template>
+                  <ng-template #content2 let-modal>
+                    <span class="modal-header">
+                      <b class="modal-title h4"> Details</b>
+                      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"><b class="closebtn">&times;</b> </button>
+                     </span>
+                    <div class="modal-body">
+                      sddds
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-danger">Close</button>
+                      <button class="btn btn-success">Download &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                      </svg></button>
+                    </div>
+                  </ng-template>
+                </td>
+                </tr>
+                
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Event Type</th>
+                  <th scope="col">Detail</th>
+                  <th scope="col">X Pos</th>
+                  <th scope="col">Y Pos</th>
+                  <th scope="col">AVL No</th>
+                  <th scope="col">Map</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+            </table>
+         <br>
+         <ngb-pagination [collectionSize]="violationReport.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+        
+           
+        
+         <!-- <ng-template #modal let-modal>
+          <div>
+            <button style="border: white; margin-left: 29.6rem;" (click)="modal.dismiss('Cross click')"><b style="font-size: larger;">&times;</b></button>
+          </div>
+          <div *ngIf="CSVSpinner == true" class="modal-body">
+            <div style="left: 45%; position: relative; text-align: center; top: 50%;">
+              <div class="sk-chase">
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+                <span class="sk-chase-dot"></span>
+              </div>
+            </div>
+          </div>
+          <h4 *ngIf="CSVSpinner == true" class="text-center">Creating CSV File</h4>
+          <div *ngIf="CSVSpinner == false" class="modal-body">
+            <img *ngIf="ResponseModel.success == true" src="assets/successfully-created.png" style="margin-left: 200px;"><br>
+            <h4 *ngIf="ResponseModel.success == true" class="text-center">Click <a style="cursor: pointer; color:blue" (click)="DownloadViolationReport()" >here</a> to download CSV file</h4>
+            <img *ngIf="ResponseModel.success == false" src="assets/icon-oops.png" style="margin-left: 200px;"><br>
+            <h4 *ngIf="ResponseModel.success == false" class="text-center">Connection Timeout,<a style="cursor: pointer; color:blue" (click)="DownloadViolationReport()">Try Again</a></h4>
+          </div>
+          </ng-template>  -->
+        </div>
+  </div>
+</div>
+</div>
